@@ -1,0 +1,31 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Raw dataset (download separately - see README's "Dataset" section)
+data/*.csv
+!data/.gitkeep
+
+# Generated outputs
+outputs/*.csv
+outputs/*.joblib
+outputs/figures/*.png
+!outputs/.gitkeep
+!outputs/figures/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
