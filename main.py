@@ -21,7 +21,7 @@ from pathlib import Path
 
 from sklearn.model_selection import train_test_split
 
-from src import data_loader, encoding, evaluate, predict, preprocessing
+from src import data_loader, eda, encoding, evaluate, predict, preprocessing
 from src import model as model_module
 from src.utils import print_step
 
@@ -62,6 +62,12 @@ def main() -> None:
     # set never "leaks" its own statistics into the pipeline.
     age_median = training_data["Age"].median()
     fare_median = training_data["Fare"].median()
+
+    # -----------------------------------------------------------------
+    # Exploratory Data Analysis (see src/eda.py)
+    # -----------------------------------------------------------------
+    print_step("Exploratory data analysis")
+    eda.run_full_eda(training_data, FIGURES_DIR)
 
     # Separate features from the target
     y = training_data["Survived"]
@@ -126,11 +132,17 @@ def main() -> None:
 
     model_module.save_model(titanic_model, MODEL_PATH)
 
+    # -----------------------------------------------------------------
+    # 7. Predict on Kaggle's test set
+    # -----------------------------------------------------------------
     print_step("Preparing Kaggle test set for prediction")
     X_test = preprocessing.fill_missing_age(X_test, reference_median=age_median)
     X_test = preprocessing.fill_missing_fare(X_test, reference_median=fare_median)
     X_test.info()
 
+    # -----------------------------------------------------------------
+    # 8. Save submission.csv
+    # -----------------------------------------------------------------
     print_step("Generating Kaggle submission file")
     predict.predict_and_generate_submission(titanic_model, X_test, SUBMISSION_PATH)
 
