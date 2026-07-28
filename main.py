@@ -126,17 +126,11 @@ def main() -> None:
 
     model_module.save_model(titanic_model, MODEL_PATH)
 
-    # -----------------------------------------------------------------
-    # 7. Predict on Kaggle's test set
-    # -----------------------------------------------------------------
     print_step("Preparing Kaggle test set for prediction")
     X_test = preprocessing.fill_missing_age(X_test, reference_median=age_median)
     X_test = preprocessing.fill_missing_fare(X_test, reference_median=fare_median)
     X_test.info()
 
-    # -----------------------------------------------------------------
-    # 8. Save submission.csv
-    # -----------------------------------------------------------------
     print_step("Generating Kaggle submission file")
     predict.predict_and_generate_submission(titanic_model, X_test, SUBMISSION_PATH)
 
